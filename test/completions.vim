@@ -8,8 +8,6 @@ describe 'completions'
     end
 
     after
-        " default
-        let g:jedi#popup_select_first = 1
         bd!
     end
 
@@ -39,32 +37,26 @@ describe 'completions'
         Expect getline('.') == 'IndentationError().filename'
     end
 
-    it 'multi complete'
-        normal oImpXErrX()
-        Expect getline('.') == 'ImportError()'
+    it 'dot_open'
+        normal oraisX ImpXErrX()
+        Expect getline('.') == 'raise ImportError()'
     end
 
-    it 'cycling through entries popup_select_first=0'
-        let g:jedi#popup_select_first = 0
-        execute "normal oraise impX\<C-n>"
-        " It looks like this is currently not working properly.
-        "Expect getline('.') == 'raise ImportError'
-    end
-
-    it 'cycling through entries popup_select_first=1'
-        execute "normal oraise impX\<C-n>"
+    it 'cycling through entries'
+        " testing select_first doesn't seem to work in ex mode
+        execute "normal oraise impX\<C-n>\<C-n>\<C-n>"
         Expect getline('.') == 'raise ImportWarning'
-    end
+        let g:jedi#popup_select_first = 0
+        execute "normal oraise impX\<C-n>\<C-n>\<C-n>"
+        Expect getline('.') == 'raise ImportWarning'
+        let g:jedi#popup_select_first = 1
 
-    it 'longest'
         " -longest completes the first one
         set completeopt -=longest
         execute "normal oraise baseX"
         Expect getline('.') == 'raise BaseException'
         set completeopt +=longest
-    end
 
-    it 'dot_open'
     end
 end
 

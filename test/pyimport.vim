@@ -1,5 +1,5 @@
 source plugin/jedi.vim
-source test/_utils.vim
+source test/utils.vim
 
 describe 'pyimport'
     before
@@ -27,10 +27,6 @@ describe 'pyimport'
 
         Expect jedi#py_import_completions('subproc', 0, 0) == 'subprocess'
         Expect jedi#py_import_completions('subprocess', 0, 0) == 'subprocess'
-        let g:comp = jedi#py_import_completions('zip', 0, 0)
-        " Sometimes zipapp is in there sometimes not, depends on Python
-        " version.
-        let g:comp = substitute(g:comp, '^zipapp\n', '', '')
-        Expect g:comp == "zipfile\nzipimport"
+        Expect jedi#py_import_completions('zip', 0, 0) == "zipfile\nzipimport"
     end
 end
