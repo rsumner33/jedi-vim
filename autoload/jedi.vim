@@ -143,6 +143,11 @@ function! jedi#debug_info() abort
         echohl WarningMsg | echo 'You should run this in a buffer with filetype "python".' | echohl None
       endif
     endif
+    if &verbose
+      if &filetype !=# 'python'
+        echohl WarningMsg | echo 'You should run this in a buffer with filetype "python".' | echohl None
+      endif
+    endif
     echo '#### Jedi-vim debug information'
     echo 'Using Python version:' s:python_version
     let pyeval = s:python_version == 3 ? 'py3eval' : 'pyeval'
